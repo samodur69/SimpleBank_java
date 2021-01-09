@@ -2,35 +2,46 @@ package banking;
 import java.util.Random;
 
 public class Account {
-    private String cardNumber = "400000";
-    private String cardPin = "";
+    private String cardNumber;
+    private String cardPin;
     private long cardBalance = 0;
 
-    private void generateCardNumber() {
+    public Account () {
+        this.cardNumber = generateCardNumber();
+        this.cardPin = generatePinCode();
+        printAccountInfo();
+    }
+
+    private static String generateCardNumber() {  // peredelat na vozvrat
         /**
           function to generate new account number.
           @return String number
          */
         Random random = new Random();
-        System.out.println("\nGeneration card number");
+        String cardNum = "400000";
         for (int i = 0; i < 10; i++) {
-            this.cardNumber += random.nextInt(10);
+            cardNum += random.nextInt(10);
         }
-        System.out.println(this.cardNumber + "\n");
-//        return this.cardNumber;
+        System.out.println(cardNum + "\n");
+        return cardNum;
     }
 
-    private void generatePinCode() {
+    protected static String generatePinCode() {
         /**
          * function for generation Pin
          */
         Random random = new Random();
-        System.out.println("\nGeneration Pin Code");
+        String pinCode = "";
         for (int i = 0; i < 4; i++) {
-            this.cardPin += random.nextInt(10);
+            pinCode += random.nextInt(10);
         }
-        System.out.println(this.cardPin + "\n");
-//        return this.cardPin;
+        System.out.println(pinCode + "\n");
+        return pinCode;
+    }
+
+    protected void printAccountInfo() {
+        System.out.println("Your card number:\n" + this.getCardNumber());
+        System.out.println("Your card PIN:\n" + this.getCardPin());
     }
 
     public String getCardNumber() {
