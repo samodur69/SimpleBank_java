@@ -6,12 +6,12 @@ public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         int choice;
-        String currentAccount = "";
         while (true) {
             MenuPrompt.printMenu(1);
             choice = scan.nextInt();
+            AccountManager manager = new AccountManager();
             if (choice == 1) {
-                continue;
+                manager.createAccount();
             } else if (choice == 2) {
                 continue;
             } else if (choice == 0) {
