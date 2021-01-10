@@ -21,11 +21,11 @@ class AccountManager {
             if (inputNumber.equals(acc.getCardNumber())) {
                 if (inputPin.equals(acc.getCardPin())) {
                     this.currentAccount = acc;
+                    System.out.println("You have successfully logged in!");
                     return true;
                 }
             }
         }
-        System.out.println(this.currentAccount.toString());
         return false;
     }
 

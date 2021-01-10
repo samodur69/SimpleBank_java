@@ -18,6 +18,7 @@ public class Main {
                 System.out.println("Enter your PIN:");
                 String pin = scan.next();
                 if (manager.logInAccount(number, pin)) {
+
                     while (true) {
                         MenuPrompt.printMenu(2);
                         choice = scan.nextInt();
