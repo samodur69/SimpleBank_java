@@ -8,8 +8,8 @@ public class Main {
         int choice;
         while (true) {
             MenuPrompt.printMenu(1);
-            choice = scan.nextInt();
             AccountManager manager = new AccountManager();
+            choice = scan.nextInt();
             if (choice == 1) {
                 manager.createAccount();
             } else if (choice == 2) {
@@ -28,7 +28,6 @@ public class Main {
                             break;
                         } else if (choice == 0) {
                             System.exit(0);
-                            break;
                         }
                     }
                 } else {

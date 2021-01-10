@@ -22,7 +22,6 @@ public class Account {
         for (int i = 0; i < 10; i++) {
             cardNum += random.nextInt(10);
         }
-        System.out.println(cardNum + "\n");
         return cardNum;
     }
 
@@ -35,7 +34,6 @@ public class Account {
         for (int i = 0; i < 4; i++) {
             pinCode += random.nextInt(10);
         }
-        System.out.println(pinCode + "\n");
         return pinCode;
     }
 
