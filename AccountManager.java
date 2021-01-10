@@ -8,6 +8,9 @@ class AccountManager {
     public List<Account> cardAccounts = new ArrayList<>();
 
     public void createAccount() {
+        /**
+         * create new Account object. Print number/pin, add to accounts list
+         */
         System.out.println("Your card has been created");
         Account acc = new Account();
         this.cardAccounts.add(acc);
@@ -16,19 +19,23 @@ class AccountManager {
     public boolean logInAccount (String inputNumber, String inputPin){
         for (Account elem: cardAccounts) {
             if (elem.getCardNumber().equals(inputNumber)) {
-                System.out.println("Try to login");
-                return true;
-            } else {
-                System.out.println("Invalid card number. Please try again");
+                if (inputPin.equals(elem.getCardPin())) {
+                    currentAccount = elem;
+                    System.out.println(currentAccount.toString());
+                    return true;
+                }
             }
         }
-        return false; //////
+        return false;
     }
 
     protected void logOutAccount () {
-//        this.currentAccount = "";/////////////
-        System.out.println("log out complete");
+        this.currentAccount = null;
+        System.out.println("You have successfully logged out!");
     }
 
+    protected void showBalance() {
+        System.out.println(currentAccount.getCardBalance());
+    }
 
 }
