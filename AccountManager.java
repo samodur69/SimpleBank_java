@@ -1,7 +1,6 @@
 package banking;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 class AccountManager {
@@ -15,7 +14,6 @@ class AccountManager {
         System.out.println("Your card has been created");
         Account acc = new Account();
         this.cardAccounts.add(acc);
-        System.out.println(Arrays.toString(this.cardAccounts.toArray()));
     }
 
     public boolean logInAccount (String inputNumber, String inputPin){
@@ -23,7 +21,6 @@ class AccountManager {
             if (inputNumber.equals(acc.getCardNumber())) {
                 if (inputPin.equals(acc.getCardPin())) {
                     this.currentAccount = acc;
-                    System.out.println(this.currentAccount.toString());
                     return true;
                 }
             }
@@ -38,7 +35,7 @@ class AccountManager {
     }
 
     protected void showBalance() {
-        System.out.println(this.currentAccount.getCardBalance());
+        System.out.println("Balance: " + this.currentAccount.getCardBalance());
     }
 
 }

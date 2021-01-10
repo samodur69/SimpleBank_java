@@ -5,10 +5,10 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
+        AccountManager manager = new AccountManager();
         int choice;
         while (true) {
             MenuPrompt.printMenu(1);
-            AccountManager manager = new AccountManager();
             choice = scan.nextInt();
             if (choice == 1) {
                 manager.createAccount();
@@ -27,6 +27,7 @@ public class Main {
                             manager.logOutAccount();
                             break;
                         } else if (choice == 0) {
+                            System.out.println("\nBye!");
                             System.exit(0);
                         }
                     }
@@ -34,6 +35,7 @@ public class Main {
                     System.out.println("Wrong card number or PIN!");
                 }
             } else if (choice == 0) {
+                System.out.println("\nBye!");
                 System.exit(0);
             } else {
                 System.out.println("Invalid choice. Try again!");
