@@ -4,7 +4,7 @@ import java.util.Random;
 public class Account {
     private String cardNumber;
     private String cardPin;
-    private long cardBalance = 0;
+    private long cardBalance;
 
     /**
      * Initialization - set balance 0, print account info (card, pin)
@@ -12,6 +12,7 @@ public class Account {
     public Account () {
         this.cardNumber = generateCardNumber();
         this.cardPin = generatePinCode();
+        this.cardBalance = 0;
         printAccountInfo();
     }
 
@@ -79,7 +80,7 @@ public class Account {
     }
 
     public long getCardBalance() {
-        return cardBalance;
+        return this.cardBalance;
     }
 
 //    public void setCardBalance(long cardBalance) {

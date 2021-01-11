@@ -30,6 +30,7 @@ public class Main {
                             case 0:
                                 System.out.println("\nBye!");
                                 System.exit(0);
+                                break;
                             default:
                                 System.out.println("Invalid choice. Try again!");
                         }
@@ -37,6 +38,7 @@ public class Main {
                     } else {
                         System.out.println("Wrong card number or PIN!");
                     }
+                    break;
                 case 0:
                     System.out.println("\nBye!");
                     System.exit(0);
