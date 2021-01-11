@@ -2,22 +2,24 @@ package banking;
 import java.util.Random;
 
 public class Account {
-//    final static long seed = System.currentTimeMillis();
     private String cardNumber;
     private String cardPin;
     private long cardBalance = 0;
 
+    /**
+     * Initialization - set balance 0, print account info (card, pin)
+     */
     public Account () {
         this.cardNumber = generateCardNumber();
         this.cardPin = generatePinCode();
         printAccountInfo();
     }
 
+    /**
+     function to generate new account number.
+     @return String number
+     */
     private static String generateCardNumber() {
-        /**
-          function to generate new account number.
-          @return String number
-         */
         Random random = new Random();
         StringBuilder cardNum = new StringBuilder("400000");
         for (int i = 0; i < 9; i++) {
@@ -27,10 +29,12 @@ public class Account {
         return cardNum.toString();
     }
 
+
+    /**
+     * function for generation Pin
+     * @return pin as String
+     */
     protected static String generatePinCode() {
-        /**
-         * function for generation Pin
-         */
         Random random = new Random();
         StringBuilder pinCode = new StringBuilder();
         for (int i = 0; i < 4; i++) {
@@ -39,6 +43,12 @@ public class Account {
         return pinCode.toString();
     }
 
+
+    /**
+     * Check Sum Luhn alg generator.
+     * @param cardNum 15 card digits
+     * @return last digit
+     */
     public static int checkSumGenerator(String cardNum) {
         int sum = 0;
         for (int i = 0; i < cardNum.length(); i++) {
@@ -64,23 +74,15 @@ public class Account {
         return cardNumber;
     }
 
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
-    }
-
     public String getCardPin() {
         return cardPin;
-    }
-
-    public void setCardPin(String cardPin) {
-        this.cardPin = cardPin;
     }
 
     public long getCardBalance() {
         return cardBalance;
     }
 
-    public void setCardBalance(long cardBalance) {
-        this.cardBalance = cardBalance;
-    }
+//    public void setCardBalance(long cardBalance) {
+//        this.cardBalance = cardBalance;
+//    }
 }
