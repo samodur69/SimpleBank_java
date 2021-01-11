@@ -7,6 +7,9 @@ class AccountManager {
     private Account currentAccount;
     public List<Account> cardAccounts = new ArrayList<>();
 
+    {
+        
+    }
     public void createAccount() {
         /**
          * create new Account object. Print number/pin, add to accounts list

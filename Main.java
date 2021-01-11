@@ -4,8 +4,11 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        String filename = "testDB.db";
         Scanner scan = new Scanner(System.in);
         AccountManager manager = new AccountManager();
+        FileUtil.checkFile(filename);
+        DatabaseUtil db = new DatabaseUtil(filename);
         while (true) {
             MenuPrompt.printMenu(1);
             switch (scan.nextInt()) {
