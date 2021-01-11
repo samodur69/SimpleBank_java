@@ -13,17 +13,18 @@ public class Account {
         printAccountInfo();
     }
 
-    private static String generateCardNumber() {  // peredelat na vozvrat
+    private static String generateCardNumber() {
         /**
           function to generate new account number.
           @return String number
          */
         Random random = new Random(seed);
-        String cardNum = "400000";
-        for (int i = 0; i < 10; i++) {
-            cardNum += random.nextInt(10);
+        StringBuilder cardNum = new StringBuilder("400000");
+        for (int i = 0; i < 9; i++) {
+            cardNum.append(random.nextInt(10));
         }
-        return cardNum;
+        cardNum.append(checkSumGenerator(cardNum.toString()));
+        return cardNum.toString();
     }
 
     protected static String generatePinCode() {
@@ -31,11 +32,27 @@ public class Account {
          * function for generation Pin
          */
         Random random = new Random(seed);
-        String pinCode = "";
+        StringBuilder pinCode = new StringBuilder();
         for (int i = 0; i < 4; i++) {
-            pinCode += random.nextInt(10);
+            pinCode.append(random.nextInt(10));
         }
-        return pinCode;
+        return pinCode.toString();
+    }
+
+    public static int checkSumGenerator(String cardNum) {
+        int sum = 0;
+        for (int i = 0; i < cardNum.length(); i++) {
+            int digit = Integer.parseInt(cardNum.substring(i, (i + 1)));
+            if (i % 2 == 0) {
+                digit *= 2;
+                if (digit > 9) {
+                    digit = (digit / 10) + (digit % 10);
+                }
+            }
+            sum += digit;
+        }
+        int mod = sum % 10;
+        return mod == 0 ? 0 : 10 - mod;
     }
 
     protected void printAccountInfo() {
