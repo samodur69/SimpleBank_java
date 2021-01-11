@@ -2,7 +2,7 @@ package banking;
 import java.util.Random;
 
 public class Account {
-    final static long seed = System.currentTimeMillis();
+//    final static long seed = System.currentTimeMillis();
     private String cardNumber;
     private String cardPin;
     private long cardBalance = 0;
@@ -18,7 +18,7 @@ public class Account {
           function to generate new account number.
           @return String number
          */
-        Random random = new Random(seed);
+        Random random = new Random();
         StringBuilder cardNum = new StringBuilder("400000");
         for (int i = 0; i < 9; i++) {
             cardNum.append(random.nextInt(10));
@@ -31,7 +31,7 @@ public class Account {
         /**
          * function for generation Pin
          */
-        Random random = new Random(seed);
+        Random random = new Random();
         StringBuilder pinCode = new StringBuilder();
         for (int i = 0; i < 4; i++) {
             pinCode.append(random.nextInt(10));
