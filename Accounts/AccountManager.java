@@ -1,9 +1,10 @@
-package banking;
+package banking.Accounts;
+import banking.Accounts.Account;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class AccountManager {
+public class AccountManager {
     private Account currentAccount;
     public List<Account> cardAccounts = new ArrayList<>();
 
@@ -32,12 +33,12 @@ class AccountManager {
         return false;
     }
 
-    protected void logOutAccount () {
+    public void logOutAccount() {
         this.currentAccount = null;
         System.out.println("You have successfully logged out!");
     }
 
-    protected void showBalance() {
+    public void showBalance() {
         System.out.println("Balance: " + this.currentAccount.getCardBalance());
     }
 

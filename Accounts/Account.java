@@ -1,4 +1,4 @@
-package banking;
+package banking.Accounts;
 import java.util.Random;
 
 public class Account {
