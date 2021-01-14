@@ -36,7 +36,6 @@ public class Main {
                     String number = scan.next();
                     System.out.println("Enter your PIN:");
                     String pin = scan.next();
-                    // if not null
                     if (manager.logInAccount(number, pin)) {
                         while (true) {
                             MenuPrompt.printMenu(2);
