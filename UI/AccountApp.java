@@ -14,6 +14,7 @@ public class AccountApp {
                     break;
                 case 2:
                     manager.logOutAccount();
+                    BankApp.start(manager);
                     break;
                 case 0:
                     System.out.println("\nBye!");

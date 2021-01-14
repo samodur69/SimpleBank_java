@@ -3,7 +3,6 @@ package banking;
 import banking.Accounts.AccountManager;
 import banking.UI.BankApp;
 
-import java.util.Scanner;
 
 public class Main {
     private static String[] savedArgs;
