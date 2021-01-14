@@ -2,9 +2,6 @@ package banking.Accounts;
 import banking.Main;
 import banking.data.DatabaseUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *
  */
@@ -17,9 +14,8 @@ public class AccountManager {
      * create new Account object. Print number/pin, add to accounts list
      */
     public void createAccount() {
-
         System.out.println("Your card has been created");
-        Account acc = new Account();
+        Account acc = new Account(0);
 //        this.sessionCardAccounts.add(acc);
         db.sqlAddNewAccount(acc);
     }
