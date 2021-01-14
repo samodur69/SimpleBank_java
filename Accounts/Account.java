@@ -97,6 +97,18 @@ public class Account {
         return userId;
     }
 
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public void setCardPin(String cardPin) {
+        this.cardPin = cardPin;
+    }
+
+    public void setCardBalance(long cardBalance) {
+        this.cardBalance = cardBalance;
+    }
+
     public void setUserId(int userId) {
         this.userId = userId;
     }
