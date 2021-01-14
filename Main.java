@@ -8,6 +8,12 @@ import java.util.Scanner;
 
 public class Main {
     private static String[] savedArgs;
+
+    /**
+     * function to handle command line arguments. Program start with 2 args:
+     * -fileName dbname.s3db
+     * @return second cmdline argument
+     */
     public static String getSavedArgs(){
         return savedArgs[1];
     }
@@ -30,6 +36,7 @@ public class Main {
                     String number = scan.next();
                     System.out.println("Enter your PIN:");
                     String pin = scan.next();
+                    // if not null
                     if (manager.logInAccount(number, pin)) {
                         while (true) {
                             MenuPrompt.printMenu(2);
