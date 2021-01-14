@@ -7,12 +7,18 @@ import banking.UI.MenuPrompt;
 import java.util.Scanner;
 
 public class Main {
+    private static String[] savedArgs;
+    public static String getSavedArgs(){
+        return savedArgs[1];
+    }
+
     public static void main(String[] args) {
-//        String filename = "testDB.db";
+        //// need to insert args parsing
+        savedArgs = args;
+        String filename = args[1];
         Scanner scan = new Scanner(System.in);
         AccountManager manager = new AccountManager();
-//        FileUtil.checkFile(filename);
-//        DatabaseUtil db = new DatabaseUtil(filename);
+        FileUtil.checkFile(filename);
         while (true) {
             MenuPrompt.printMenu(1);
             switch (scan.nextInt()) {
