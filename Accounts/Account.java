@@ -2,6 +2,7 @@ package banking.Accounts;
 import java.util.Random;
 
 public class Account {
+    private int userId;
     private String cardNumber;
     private String cardPin;
     private long cardBalance;
@@ -10,6 +11,7 @@ public class Account {
      * Initialization - set balance 0, print account info (card, pin)
      */
     public Account () {
+        this.userId = generateUserID();
         this.cardNumber = generateCardNumber();
         this.cardPin = generatePinCode();
         this.cardBalance = 0;
@@ -44,6 +46,14 @@ public class Account {
         return pinCode.toString();
     }
 
+    /**
+     * function for generation userID for sql DB
+     * @return user as Int
+     */
+    protected static int generateUserID() {
+        Random random = new Random();
+        return random.nextInt(10000000);
+    }
 
     /**
      * Check Sum Luhn alg generator.
@@ -83,7 +93,15 @@ public class Account {
         return this.cardBalance;
     }
 
-//    public void setCardBalance(long cardBalance) {
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    //    public void setCardBalance(long cardBalance) {
 //        this.cardBalance = cardBalance;
 //    }
 }
