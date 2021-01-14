@@ -10,13 +10,20 @@ public class Account {
     /**
      * Initialization - set balance 0, print account info (card, pin)
      */
-    public Account () {
+    public Account (int balance) {
         this.userId = generateUserID();
         this.cardNumber = generateCardNumber();
         this.cardPin = generatePinCode();
-        this.cardBalance = 0;
+        this.cardBalance = balance;
         printAccountInfo();
     }
+
+    /**
+     * new black acount fo db import use
+     */
+    public Account () {
+    }
+
 
     /**
      function to generate new account number.
