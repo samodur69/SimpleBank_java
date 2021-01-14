@@ -4,10 +4,8 @@ import banking.Accounts.Account;
 import banking.FileUtil;
 import org.jetbrains.annotations.NotNull;
 import org.sqlite.SQLiteDataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+
+import java.sql.*;
 
 public class DatabaseUtil {
     private String url = "jdbc:sqlite:" + FileUtil.path;
@@ -50,9 +48,41 @@ public class DatabaseUtil {
         }
     }
 
-    public Account importAccountInfo(String number, String pin) {
+    public Account importAccountInfo(String cardNumber, String pin) {
         Account accInfo = new Account();
+        SQLiteDataSource dataSource = new SQLiteDataSource();
+        dataSource.setUrl(this.url);
+        try {
+            Connection conn = dataSource.getConnection();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM card WHERE number = ?");
+            statement.setString(1, cardNumber);
+            ResultSet resultSet = statement.executeQuery();
+            if (!resultSet.equals(null)) {
+                String checkPin = resultSet.getString("pin");
+                if (pin.equals(checkPin)) {
+                    accInfo.setUserId(resultSet.getInt("id"));
+                    accInfo.setCardNumber(resultSet.getString("number"));
+                    accInfo.setCardPin(checkPin);
+                    accInfo.setCardBalance(resultSet.getInt("balance"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Troubles when try to import account data from DB");
+        }
         return accInfo;
+    }
+
+    public void exportAccountInfo(Account account) {
+        SQLiteDataSource dataSource = new SQLiteDataSource();
+        dataSource.setUrl(this.url);
+        try {
+            Connection conn = dataSource.getConnection();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM card WHERE number = ?");
+            // continue update statement
+
+        } catch (SQLException e) {
+            System.out.println("Troubles when try to export account data to DB");
+        }
     }
 
     /**
