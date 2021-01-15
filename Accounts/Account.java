@@ -19,7 +19,7 @@ public class Account {
     }
 
     /**
-     * new black acount fo db import use
+     * new black account fo db import use
      */
     public Account () {
     }
@@ -113,8 +113,8 @@ public class Account {
     }
 
     /**
-     * setter for inmopt account from DB
-     * @param cardBalance
+     * setter for import account from DB
+     * @param cardBalance new balance
      */
     public void setCardBalance(int cardBalance) {
         this.cardBalance = cardBalance;
@@ -131,11 +131,33 @@ public class Account {
                 this.setCardBalance(balance + amount);
                 break;
             case "-":
-                // check balance - amount
                 this.setCardBalance(balance - amount);
-
+                break;
         }
-
     }
 
+    /**
+     * Validation checksum of CCard when DoTransfer
+     * @param cardNumber target card number
+     * @return checksum wrong/right
+     */
+    public static boolean checkSumValidation(String cardNumber) {
+        int[] ints = new int[cardNumber.length()];
+        for (int i = 0; i < cardNumber.length(); i++) {
+            ints[i] = Integer.parseInt(cardNumber.substring(i, i + 1));
+        }
+        for (int i = ints.length - 2; i >= 0; i = i - 2) {
+            int j = ints[i];
+            j = j * 2;
+            if (j > 9) {
+                j = j % 10 + 1;
+            }
+            ints[i] = j;
+        }
+        int sum = 0;
+        for (int anInt : ints) {
+            sum += anInt;
+        }
+        return sum % 10 == 0;
+    }
 }
