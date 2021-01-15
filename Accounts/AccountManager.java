@@ -7,7 +7,6 @@ import banking.data.DatabaseUtil;
  */
 public class AccountManager {
     private Account currentAccount;
-//    public List<Account> sessionCardAccounts = new ArrayList<>();
     DatabaseUtil db = new DatabaseUtil(Main.getSavedArgs());
 
     /**
@@ -16,7 +15,6 @@ public class AccountManager {
     public void createAccount() {
         System.out.println("Your card has been created");
         Account acc = new Account(0);
-//        this.sessionCardAccounts.add(acc);
         db.sqlAddNewAccount(acc);
     }
 
@@ -41,4 +39,19 @@ public class AccountManager {
     public void showBalance() {
         System.out.println("Balance: " + this.currentAccount.getCardBalance());
     }
+
+    public void addIncome(int amount) {
+        // try catch and check income
+        this.currentAccount.accountTransaction("+", amount);
+        System.out.println("Income was added!");
+    }
+
+    public boolean checkMoneyTransfer(int amount) {
+        return this.currentAccount.getCardBalance() - amount >= 0;
+    }
+
+    public static boolean checkSumValidation(String cardNumber) {
+        return true;
+    }
+
 }
