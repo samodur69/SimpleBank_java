@@ -13,6 +13,16 @@ public class AccountApp {
                     manager.showBalance();
                     break;
                 case 2:
+                    System.out.println("Enter income:");
+                    manager.addIncome(scan.nextInt());
+                    break;
+                case 3:
+                    // transfer money to account
+                    break;
+                case 4:
+                    //delete account method
+                    break;
+                case 5:
                     manager.logOutAccount();
                     BankApp.start(manager);
                     break;
