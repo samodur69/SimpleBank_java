@@ -46,7 +46,7 @@ public class DatabaseUtil {
         }
     }
 
-    public Account importAccountInfo(String cardNumber, String pin) {
+    public Account importAccountInfo(String cardNumber, String inputPin) {
         Account accInfo = new Account();
         SQLiteDataSource dataSource = new SQLiteDataSource();
         dataSource.setUrl(this.url);
@@ -57,11 +57,15 @@ public class DatabaseUtil {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet != null) {
                 String checkPin = resultSet.getString("pin");
-                if (pin.equals(checkPin)) {
+//                System.out.println(checkPin);
+//                System.out.println(checkPin.equals(inputPin));
+                if (checkPin.equals(inputPin)) {
                     accInfo.setUserId(resultSet.getInt("id"));
                     accInfo.setCardNumber(resultSet.getString("number"));
                     accInfo.setCardPin(checkPin);
                     accInfo.setCardBalance(resultSet.getInt("balance"));
+                } else {
+                    return null;
                 }
             }
         } catch (SQLException e) {
@@ -101,7 +105,8 @@ public class DatabaseUtil {
             statement.setInt(4, account.getCardBalance());
             statement.execute();
         } catch (SQLException e) {
-            System.out.println("Troubles with insert new acc to DB");
+            e.printStackTrace();
+            System.out.println("Troubles with adding new acc to DB");
         }
     }
 
@@ -144,7 +149,7 @@ public class DatabaseUtil {
             PreparedStatement statement  = conn.prepareStatement(sql);
             statement.setString(1, accountNumber);
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet != null) {
+            if (resultSet.next()) {
                 cardExist = true;
             }
         } catch (SQLException e) {

@@ -19,6 +19,7 @@ public class BankApp {
                     System.out.println("Enter your PIN:");
                     String pin = scan.next();
                     if (manager.logInAccount(number, pin)) {
+                        System.out.println("You have successfully logged in!");
                         AccountApp.start(manager);
                     } else {
                         System.out.println("Wrong card number or PIN!");
