@@ -5,7 +5,7 @@ public class Account {
     private int userId;
     private String cardNumber;
     private String cardPin;
-    private long cardBalance;
+    private int cardBalance;
 
     /**
      * Initialization - set balance 0, print account info (card, pin)
@@ -96,7 +96,7 @@ public class Account {
         return cardPin;
     }
 
-    public long getCardBalance() {
+    public int getCardBalance() {
         return this.cardBalance;
     }
 
@@ -112,7 +112,11 @@ public class Account {
         this.cardPin = cardPin;
     }
 
-    public void setCardBalance(long cardBalance) {
+    /**
+     * setter for inmopt account from DB
+     * @param cardBalance
+     */
+    public void setCardBalance(int cardBalance) {
         this.cardBalance = cardBalance;
     }
 
@@ -120,7 +124,18 @@ public class Account {
         this.userId = userId;
     }
 
-    //    public void setCardBalance(long cardBalance) {
-//        this.cardBalance = cardBalance;
-//    }
+    public void accountTransaction(String direction, int amount) {
+        int balance = this.getCardBalance();
+        switch (direction) {
+            case "+":
+                this.setCardBalance(balance + amount);
+                break;
+            case "-":
+                // check balance - amount
+                this.setCardBalance(balance - amount);
+
+        }
+
+    }
+
 }
