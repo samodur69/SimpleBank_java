@@ -105,4 +105,19 @@ public class DatabaseUtil {
             System.out.println("Troubles with insert new acc to DB");
         }
     }
+
+    public void makeTransaction(String targetAccountNumber, int amount) {
+        String sql = "UPDATE * SET balance = balance + ? WHERE number = ?";
+        SQLiteDataSource dataSource = new SQLiteDataSource();
+        dataSource.setUrl(this.url);
+        try {
+            Connection conn = dataSource.getConnection();
+            PreparedStatement statement  = conn.prepareStatement(sql);
+            statement.setInt(1, amount);
+            statement.setString(2, targetAccountNumber);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Cant update target account balance");
+        }
+    }
 }
