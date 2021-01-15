@@ -1,5 +1,6 @@
 package banking.UI;
 
+import banking.Accounts.Account;
 import banking.Accounts.AccountManager;
 import java.util.Scanner;
 
@@ -17,16 +18,28 @@ public class AccountApp {
                     manager.addIncome(scan.nextInt());
                     break;
                 case 3:
-                    // transfer money to account
+                    System.out.println("Transfer\nEnter card number:");
+                    String cardNumber = scan.next();
+                    if (Account.checkSumValidation(cardNumber)) {
+                        if (manager.checkTargetAccount(cardNumber)) {
+                            System.out.println("Enter how much money you want to transfer:");
+                            manager.makeTransaction(cardNumber, scan.nextInt());
+                        } else {
+                            System.out.println("Such card does not exist.");
+                        }
+                    } else {
+                        System.out.println("Probably you made mistake in card number. Please try again!");
+                    }
                     break;
                 case 4:
-                    //delete account method
+                    manager.closeAccount();
                     break;
                 case 5:
                     manager.logOutAccount();
                     BankApp.start(manager);
                     break;
                 case 0:
+                    manager.logOutAccount();
                     System.out.println("\nBye!");
                     System.exit(0);
                     break;
