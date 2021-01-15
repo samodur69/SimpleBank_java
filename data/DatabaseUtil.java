@@ -8,7 +8,6 @@ import java.sql.*;
 
 public class DatabaseUtil {
     private String url = "jdbc:sqlite:" + FileUtil.path;
-    final private String sqlUpdateAccount = "";
 
     /**
      * after initialization testing connection
@@ -56,7 +55,7 @@ public class DatabaseUtil {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM card WHERE number = ?");
             statement.setString(1, cardNumber);
             ResultSet resultSet = statement.executeQuery();
-            if (!resultSet.equals(null)) {
+            if (resultSet != null) {
                 String checkPin = resultSet.getString("pin");
                 if (pin.equals(checkPin)) {
                     accInfo.setUserId(resultSet.getInt("id"));
@@ -99,7 +98,7 @@ public class DatabaseUtil {
             statement.setInt(1, account.getUserId());
             statement.setString(2, account.getCardNumber());
             statement.setString(3, account.getCardPin());
-            statement.setInt(4, (int) account.getCardBalance());
+            statement.setInt(4, account.getCardBalance());
             statement.execute();
         } catch (SQLException e) {
             System.out.println("Troubles with insert new acc to DB");
