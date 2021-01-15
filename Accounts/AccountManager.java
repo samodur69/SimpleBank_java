@@ -31,7 +31,7 @@ public class AccountManager {
     }
 
     public void logOutAccount() {
-        //  here update DB
+        db.updateAccountBalance(this.currentAccount);
         this.currentAccount = null;
         System.out.println("You have successfully logged out!");
     }
@@ -46,12 +46,28 @@ public class AccountManager {
         System.out.println("Income was added!");
     }
 
+
     public boolean checkMoneyTransfer(int amount) {
         return this.currentAccount.getCardBalance() - amount >= 0;
     }
 
-    public static boolean checkSumValidation(String cardNumber) {
-        return true;
+    public void closeAccount() {
+        db.deleteAccount(this.currentAccount.getCardNumber());
+        System.out.println("The account has been closed!");
+    }
+
+    public boolean checkTargetAccount(String accountNumber) {
+        return db.checkTargetCardNumber(accountNumber);
+    }
+
+    public void makeTransaction(String targetNumber, int amount) {
+        if (checkMoneyTransfer(amount)) {
+            this.currentAccount.accountTransaction("-", amount);
+            db.makeTransaction(targetNumber, amount);
+            System.out.println("Success!");
+        } else {
+            System.out.println("Not enough money!");
+        }
     }
 
 }
