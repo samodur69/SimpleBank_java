@@ -2,7 +2,6 @@ package banking.data;
 
 import banking.Accounts.Account;
 import banking.FileUtil;
-import org.jetbrains.annotations.NotNull;
 import org.sqlite.SQLiteDataSource;
 
 import java.sql.*;
@@ -72,14 +71,15 @@ public class DatabaseUtil {
         return accInfo;
     }
 
-    public void exportAccountInfo(Account account) {
+    public void updateAccountBalance(Account account) {
         SQLiteDataSource dataSource = new SQLiteDataSource();
         dataSource.setUrl(this.url);
         try {
             Connection conn = dataSource.getConnection();
-            PreparedStatement statement = conn.prepareStatement("SELECT * FROM card WHERE number = ?");
-            // continue update statement
-
+            PreparedStatement statement = conn.prepareStatement("UPDATE card SET balance = ? WHERE number = ?");
+            statement.setInt(1, account.getCardBalance());
+            statement.setString(2, account.getCardNumber());
+            statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Troubles when try to export account data to DB");
         }
@@ -89,7 +89,7 @@ public class DatabaseUtil {
      * func to add new row with already created account to DB
      * @param account - object created in AccountManager
      */
-    public void sqlAddNewAccount(@NotNull Account account) {
+    public void sqlAddNewAccount(Account account) {
         SQLiteDataSource dataSource = new SQLiteDataSource();
         dataSource.setUrl(this.url);
         try {
@@ -106,7 +106,7 @@ public class DatabaseUtil {
         }
     }
 
-    public void makeTransaction(String targetAccountNumber, int amount) {
+    public void makeTransaction (String targetAccountNumber, int amount) {
         String sql = "UPDATE * SET balance = balance + ? WHERE number = ?";
         SQLiteDataSource dataSource = new SQLiteDataSource();
         dataSource.setUrl(this.url);
@@ -119,5 +119,38 @@ public class DatabaseUtil {
         } catch (SQLException e) {
             System.out.println("Cant update target account balance");
         }
+    }
+
+    public void deleteAccount (String accountNumber) {
+        String sql = "DELETE FROM card WHERE number = ?";
+        SQLiteDataSource dataSource = new SQLiteDataSource();
+        dataSource.setUrl(this.url);
+        try {
+            Connection conn = dataSource.getConnection();
+            PreparedStatement statement  = conn.prepareStatement(sql);
+            statement.setString(1, accountNumber);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Cant delete account");
+        }
+    }
+
+    public boolean checkTargetCardNumber(String accountNumber) {
+        boolean cardExist = false;
+        String sql = "SELECT * FROM card WHERE number = ?";
+        SQLiteDataSource dataSource = new SQLiteDataSource();
+        dataSource.setUrl(this.url);
+        try {
+            Connection conn = dataSource.getConnection();
+            PreparedStatement statement  = conn.prepareStatement(sql);
+            statement.setString(1, accountNumber);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet != null) {
+                cardExist = true;
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL error when check account number in DB");
+        }
+        return cardExist;
     }
 }
