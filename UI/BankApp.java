@@ -2,10 +2,11 @@ package banking.UI;
 
 import banking.Accounts.AccountManager;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class BankApp {
-    public static void start(AccountManager manager) {
+    public static void start(AccountManager manager) throws SQLException {
         Scanner scan = new Scanner(System.in);
         while (true) {
             MenuPrompt.printMenu(1);

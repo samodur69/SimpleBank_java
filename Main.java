@@ -3,6 +3,8 @@ package banking;
 import banking.Accounts.AccountManager;
 import banking.UI.BankApp;
 
+import java.sql.SQLException;
+
 
 public class Main {
     private static String[] savedArgs;
@@ -16,7 +18,7 @@ public class Main {
         return savedArgs[1];
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         //// need to insert args parsing
         savedArgs = args;
         AccountManager manager = new AccountManager();

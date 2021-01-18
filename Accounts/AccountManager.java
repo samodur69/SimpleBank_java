@@ -1,13 +1,16 @@
 package banking.Accounts;
 import banking.Main;
 import banking.data.DatabaseUtil;
+import banking.data.TestBase;
+
+import java.sql.SQLException;
 
 /**
- *
+ * main business logic.
  */
 public class AccountManager {
     private Account currentAccount;
-    DatabaseUtil db = new DatabaseUtil(Main.getSavedArgs());
+    TestBase db = new TestBase(Main.getSavedArgs());
 
     /**
      * create new Account object. Print number/pin, add to accounts list
@@ -30,7 +33,7 @@ public class AccountManager {
         return this.currentAccount != null;
     }
 
-    public void logOutAccount() {
+    public void logOutAccount() throws SQLException {
         db.updateAccountBalance(this.currentAccount);
         this.currentAccount = null;
         System.out.println("You have successfully logged out!");
