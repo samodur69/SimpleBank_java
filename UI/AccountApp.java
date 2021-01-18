@@ -35,6 +35,7 @@ public class AccountApp {
                     break;
                 case 4:
                     manager.closeAccount();
+                    BankApp.start(manager);
                     break;
                 case 5:
                     manager.logOutAccount();

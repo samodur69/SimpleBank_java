@@ -13,14 +13,14 @@ public class DatabaseUtil {
      * after initialization testing connection
      * @param filename - adding DB filename to path from com line args to create full path to DB
      */
-    public DatabaseUtil(String filename) {
+    public DatabaseUtil (String filename) {
         SQLiteDataSource dataSource = new SQLiteDataSource();
         this.url += filename;
         dataSource.setUrl(this.url);
         try (Connection con = dataSource.getConnection()) {
             if (con.isValid(5)) {
                 createTable();
-                System.out.println("Connection is valid");
+//                System.out.println("Connection is valid");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -50,15 +50,12 @@ public class DatabaseUtil {
         Account accInfo = new Account();
         SQLiteDataSource dataSource = new SQLiteDataSource();
         dataSource.setUrl(this.url);
-        try {
-            Connection conn = dataSource.getConnection();
+        try (Connection conn = dataSource.getConnection()){
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM card WHERE number = ?");
             statement.setString(1, cardNumber);
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet != null) {
+            if (resultSet.getString("number").equals(cardNumber)) {
                 String checkPin = resultSet.getString("pin");
-//                System.out.println(checkPin);
-//                System.out.println(checkPin.equals(inputPin));
                 if (checkPin.equals(inputPin)) {
                     accInfo.setUserId(resultSet.getInt("id"));
                     accInfo.setCardNumber(resultSet.getString("number"));
@@ -67,9 +64,12 @@ public class DatabaseUtil {
                 } else {
                     return null;
                 }
+            } else {
+                return null;
             }
         } catch (SQLException e) {
             System.out.println("Troubles when try to import account data from DB");
+            return null;
         }
         return accInfo;
     }
@@ -77,8 +77,7 @@ public class DatabaseUtil {
     public void updateAccountBalance(Account account) {
         SQLiteDataSource dataSource = new SQLiteDataSource();
         dataSource.setUrl(this.url);
-        try {
-            Connection conn = dataSource.getConnection();
+        try (Connection conn = dataSource.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("UPDATE card SET balance = ? WHERE number = ?");
             statement.setInt(1, account.getCardBalance());
             statement.setString(2, account.getCardNumber());
@@ -95,8 +94,7 @@ public class DatabaseUtil {
     public void sqlAddNewAccount(Account account) {
         SQLiteDataSource dataSource = new SQLiteDataSource();
         dataSource.setUrl(this.url);
-        try {
-            Connection conn = dataSource.getConnection();
+        try (Connection conn = dataSource.getConnection()) {
             String sqlNewAccount = "INSERT INTO card VALUES(?,?,?,?)";
             PreparedStatement statement = conn.prepareStatement(sqlNewAccount);
             statement.setInt(1, account.getUserId());
@@ -111,11 +109,10 @@ public class DatabaseUtil {
     }
 
     public void makeTransaction (String targetAccountNumber, int amount) {
-        String sql = "UPDATE * SET balance = balance + ? WHERE number = ?";
+        String sql = "UPDATE card SET balance = balance + ? WHERE number = ?";
         SQLiteDataSource dataSource = new SQLiteDataSource();
         dataSource.setUrl(this.url);
-        try {
-            Connection conn = dataSource.getConnection();
+        try (Connection conn = dataSource.getConnection()){
             PreparedStatement statement  = conn.prepareStatement(sql);
             statement.setInt(1, amount);
             statement.setString(2, targetAccountNumber);
@@ -129,8 +126,7 @@ public class DatabaseUtil {
         String sql = "DELETE FROM card WHERE number = ?";
         SQLiteDataSource dataSource = new SQLiteDataSource();
         dataSource.setUrl(this.url);
-        try {
-            Connection conn = dataSource.getConnection();
+        try (Connection conn = dataSource.getConnection()) {
             PreparedStatement statement  = conn.prepareStatement(sql);
             statement.setString(1, accountNumber);
             statement.executeUpdate();
@@ -144,8 +140,7 @@ public class DatabaseUtil {
         String sql = "SELECT * FROM card WHERE number = ?";
         SQLiteDataSource dataSource = new SQLiteDataSource();
         dataSource.setUrl(this.url);
-        try {
-            Connection conn = dataSource.getConnection();
+        try (Connection conn = dataSource.getConnection()) {
             PreparedStatement statement  = conn.prepareStatement(sql);
             statement.setString(1, accountNumber);
             ResultSet resultSet = statement.executeQuery();

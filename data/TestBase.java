@@ -20,7 +20,6 @@ public class TestBase {
         try (Connection con = dataSource.getConnection()) {
             if (con.isValid(5)) {
                 createTable();
-//                System.out.println("Connection is valid");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -28,12 +27,26 @@ public class TestBase {
     }
 
     /**
+     * connection to DB util. use for simplify methods code
+     * @return connection
+     */
+    public Connection connect() {
+        Connection conn = null;
+        SQLiteDataSource dataSource = new SQLiteDataSource();
+        dataSource.setUrl(this.url);
+        try {
+            conn = dataSource.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return conn;
+    }
+
+    /**
      * creating every time new table if not exists in DB
      */
     public void createTable() {
-        SQLiteDataSource dataSource = new SQLiteDataSource();
-        dataSource.setUrl(this.url);
-        try (Connection conn = dataSource.getConnection()) {
+        try (Connection conn = this.connect()) {
             Statement state = conn.createStatement();
             String sqlCreateTable = "CREATE TABLE IF NOT EXISTS card (\n"
                     + " id INTEGER AUTO_INCREMENT PRIMARY KEY,\n"
@@ -48,9 +61,7 @@ public class TestBase {
 
     public Account importAccountInfo(String cardNumber, String inputPin) {
         Account accInfo = new Account();
-        SQLiteDataSource dataSource = new SQLiteDataSource();
-        dataSource.setUrl(this.url);
-        try (Connection conn = dataSource.getConnection()){
+        try (Connection conn = this.connect()){
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM card WHERE number = ?");
             statement.setString(1, cardNumber);
             ResultSet resultSet = statement.executeQuery();
@@ -75,9 +86,7 @@ public class TestBase {
     }
 
     public void updateAccountBalance(Account account) {
-        SQLiteDataSource dataSource = new SQLiteDataSource();
-        dataSource.setUrl(this.url);
-        try (Connection conn = dataSource.getConnection()) {
+        try (Connection conn = this.connect()) {
             PreparedStatement statement = conn.prepareStatement("UPDATE card SET balance = ? WHERE number = ?");
             statement.setInt(1, account.getCardBalance());
             statement.setString(2, account.getCardNumber());
@@ -92,9 +101,7 @@ public class TestBase {
      * @param account - object created in AccountManager
      */
     public void sqlAddNewAccount(Account account) {
-        SQLiteDataSource dataSource = new SQLiteDataSource();
-        dataSource.setUrl(this.url);
-        try (Connection conn = dataSource.getConnection()) {
+        try (Connection conn = this.connect()) {
             String sqlNewAccount = "INSERT INTO card VALUES(?,?,?,?)";
             PreparedStatement statement = conn.prepareStatement(sqlNewAccount);
             statement.setInt(1, account.getUserId());
@@ -110,9 +117,7 @@ public class TestBase {
 
     public void makeTransaction (String targetAccountNumber, int amount) {
         String sql = "UPDATE card SET balance = balance + ? WHERE number = ?";
-        SQLiteDataSource dataSource = new SQLiteDataSource();
-        dataSource.setUrl(this.url);
-        try (Connection conn = dataSource.getConnection()){
+        try (Connection conn = this.connect()){
             PreparedStatement statement  = conn.prepareStatement(sql);
             statement.setInt(1, amount);
             statement.setString(2, targetAccountNumber);
@@ -124,9 +129,7 @@ public class TestBase {
 
     public void deleteAccount (String accountNumber) {
         String sql = "DELETE FROM card WHERE number = ?";
-        SQLiteDataSource dataSource = new SQLiteDataSource();
-        dataSource.setUrl(this.url);
-        try (Connection conn = dataSource.getConnection()) {
+        try (Connection conn = this.connect()) {
             PreparedStatement statement  = conn.prepareStatement(sql);
             statement.setString(1, accountNumber);
             statement.executeUpdate();
@@ -138,9 +141,7 @@ public class TestBase {
     public boolean checkTargetCardNumber(String accountNumber) {
         boolean cardExist = false;
         String sql = "SELECT * FROM card WHERE number = ?";
-        SQLiteDataSource dataSource = new SQLiteDataSource();
-        dataSource.setUrl(this.url);
-        try (Connection conn = dataSource.getConnection()) {
+        try (Connection conn = this.connect()) {
             PreparedStatement statement  = conn.prepareStatement(sql);
             statement.setString(1, accountNumber);
             ResultSet resultSet = statement.executeQuery();
