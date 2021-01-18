@@ -22,7 +22,6 @@ public class Main {
         //// need to insert args parsing
         savedArgs = args;
         AccountManager manager = new AccountManager();
-//        FileUtil.checkFile(args[1]);
         BankApp.start(manager);
     }
 }
